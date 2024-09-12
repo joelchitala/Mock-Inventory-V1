@@ -15,9 +15,9 @@ const baseUrl = "http://127.0.0.1:3000";
 //     })
 // });
 
-const main = document.querySelector("main");
+const content = document.querySelector("#content");
 
-const frame = new Frame(main);
+const frame = new Frame(content);
 
 const sub_frame_1 = new SubFrame();
 
@@ -34,6 +34,26 @@ page1.setTemplate((self,body)=>{
     <h2>Hello World from page 1</h2>
     <input type="number"></input>
     `;
+
+    const btn = document.createElement('button');
+
+    btn.innerHTML = "Go to page 4"
+
+    btn.onclick = (e) =>{
+        pageNavigator(page4)
+    }
+
+    body.appendChild(btn);
+
+    const btn_2 = document.createElement('button');
+
+    btn_2.innerHTML = "Go to page 5"
+
+    btn_2.onclick = (e) =>{
+        pageNavigator(page5)
+    }
+
+    body.appendChild(btn_2);
 })
 
 page2.setTemplate((self,body)=>{
@@ -87,50 +107,6 @@ page4.setTemplate((self,body,data)=>{
     <h2>Hello World from page 4</h2>
     <input type="number"></input>
     `;
-
-    const f = `
-    <table id="item-table" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Price</td>
-                    <td>Qty</td>
-                    <td>Total</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Milk</td>
-                    <td>$9</td>
-                    <td>15</td>
-                    <td>$135</td>
-                    <td><button>Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
-                <tr>
-                    <td>Eggs</td>
-                    <td>$1</td>
-                    <td>12</td>
-                    <td>$12</td>
-                    <td><button>Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
-                <tr>
-                    <td>Meat</td>
-                    <td>$18</td>
-                    <td>12</td>
-                    <td>$216</td>
-                    <td><button>Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
-            </tbody>
-        </table>
-    `;
-
-    body.innerHTML += f;
-    
 });
 
 sub_frame_2.setTemplate((self,body,page)=>{
@@ -155,59 +131,110 @@ sub_frame_2.setTemplate((self,body,page)=>{
     body.appendChild(page.getBody());
 });
 
+const sub_frame_3 = new SubFrame();
 
-frame.setTemplate((self,body,subFrame)=>{
+frame.registerSubFrame(sub_frame_3);
 
-    let subframes = document.createElement('div');
+const page5 = new Page("page-5",true);
+const page6 = new Page("page-6");
 
-    const backward = document.createElement('button');
-    backward.innerHTML = "<";
-    backward.onclick = (e) =>{
-        self.popFrame();
+sub_frame_3.registerPage(page5);
+sub_frame_3.registerPage(page6)
+
+page5.setTemplate((self,body,data)=>{
+    body.innerHTML = `
+    <h2>Hello World from page 5</h2>
+    <input type="number"></input>
+    `;
+
+    const btn = document.createElement('button');
+
+    btn.innerHTML = "Go to page 4"
+
+    btn.onclick = (e) =>{
+        pageNavigator(page4)
     }
 
+    body.appendChild(btn);
+})
+
+page6.setTemplate((self,body,data)=>{
+    body.innerHTML = `
+    <h2>Hello World from page 6</h2>
+    <input type="number"></input>
+    `;
+});
+
+sub_frame_3.setTemplate((self,body,page)=>{
+
+    let tabs = document.createElement('div');
+
+    for (let i = 0; i < self.pages.length; i++) {
+        const page = self.pages[i];
+
+        const tab = document.createElement('button');
+
+        tab.innerText = page.data["name"];
+
+        tab.onclick = (e) =>{
+            self.goToPageExplicit(page);
+        }
+
+        tabs.appendChild(tab);
+    }
+
+    body.appendChild(tabs);
+    body.appendChild(page.getBody());
+});
+
+
+frame.setTemplate((self,body,subFrame)=>{
+    let subframes = document.createElement('div');
+    const backward = document.createElement('button');
+
+    backward.innerHTML = "<";
+    backward.onclick = (e) =>{
+        self.popSubFrame();
+    }
     subframes.appendChild(backward);
 
     const forward = document.createElement('button');
     forward.innerHTML = ">";
     forward.onclick = (e) =>{
-        self.pushFrame();
+        self.pushSubFrame();
     }
-
     subframes.appendChild(forward);
     
-    
-
-    // for (let i = 0; i < self.subFrames.length; i++) {
-    //     const subFrame = self.subFrames[i];
-
-    //     const tab = document.createElement('button');
-
-    //     tab.innerText = subFrame.data["id"];
-
-    //     tab.onclick = (e) =>{
-    //         self.goToSubFrame(subFrame);
-    //     }
-
-    //     subframes.appendChild(tab);
-    // }
-
-    
-
     body.appendChild(subframes);
 
     body.appendChild(subFrame.data["body"]);
 });
 
-// frame.render();
 
-// pageNavigator(page1,page4, {"msg":"Hola Mi Amigos"});
+const hub = new Hub();
 
-const hub = new Hub(main);
+hub.setParentElement(content);
 
 hub.registerFrame(frame);
 
+const frame_2 = new Frame();
+
+hub.registerFrame(frame_2);
+
+frame_2.setTemplate((self,body,subFrame)=>{
+    console.log(body);
+    body.innerHTML = `Hello from frame 2`;
+});
+
+
 hub.render();
+
+// hub.goToFrame(frame_2);
+
+// pageNavigator(page2);
+// // pageNavigator(page3);
+// pageNavigator(page4);
+
 
 
 

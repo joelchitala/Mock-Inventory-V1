@@ -1,4 +1,5 @@
 import { generateUUID } from "../../shared/utilities.js";
+import { Hub } from "../hub/hub.js";
 
 export class Frame {
     constructor() {
@@ -6,12 +7,17 @@ export class Frame {
             "id":generateUUID(),
             "body":document.createElement('div'),
             "template":null,
+            "hub":null,
         }
 
         this.subFrames = [];
         this.currentSubFrame = null;
         this.historyStack = [];
         this.forwardStack = [];
+    }
+
+    setHub(hub){
+        this.data.hub = hub;
     }
 
     registerSubFrame(subFrame){
@@ -46,7 +52,7 @@ export class Frame {
         return true;
     }
 
-    popFrame(){
+    popSubFrame(){
         if(this.historyStack.length == 0){
             return;
         }
@@ -59,30 +65,27 @@ export class Frame {
             return;
        }
 
-       const currPage = this.getCurrentPage();
-
-       if(currPage != null){
-           this.forwardStack.push(currPage.generatePath());
+       if(this.getCurrentPage() != null){
+        this.forwardStack.push(this.getCurrentPage().generatePath());
        }
 
        this.goToSubFrame(history["subFrame"]);
 
-       this.historyStack.splice(len - 1, 1);
-       
+      this.historyStack.splice(len - 1, 1);
     }
 
-    pushFrame(){
+    pushSubFrame(){
         if(this.forwardStack.length == 0){
             return;
         }
 
        const forward =  this.forwardStack[this.forwardStack.length -1];
 
-       if(forward == null || forward == undefined){
+       if(!forward ){
             return;
        }
 
-       const currPage = this.getCurrentPage();
+        const currPage = this.getCurrentPage();
 
         const res = this.goToSubFrame(forward["subFrame"]);
 
@@ -90,7 +93,9 @@ export class Frame {
             this.historyStack.push(currPage.generatePath());
         }
 
-       
+        const len = this.forwardStack.length;
+
+        this.forwardStack.splice(len - 1, 1);
     }
 
     setTemplate(template = (self,body,subFrame)=>{}){
@@ -116,17 +121,16 @@ export class Frame {
         const template = this.data.template;
         const curr_subframe = this.currentSubFrame;
 
-        
-        if (curr_subframe == null) {
-            return;
-        }
-
         body.innerHTML = "";
         
-        curr_subframe.renderPage();
+        if (curr_subframe != null) {
+            curr_subframe.renderPage();
+        }
 
         if(template == null){
+           if(curr_subframe != null){
             body.appendChild(curr_subframe.data["body"]);
+           }
         }else{
             template(this,body,curr_subframe);
         }
@@ -135,8 +139,9 @@ export class Frame {
 
 
 export const pageNavigator = (gotoPage, data = null) =>{
+    const hub = new Hub();
 
-    const currentPage = null;
+    const currentPage = hub.getCurrentPage();
 
     if(!currentPage || !gotoPage){
         return;
@@ -168,6 +173,10 @@ export const pageNavigator = (gotoPage, data = null) =>{
 
     subFrame.goToPageExplicit(gotoPage);
 
+    // if(gotoPage.data["refresh"]){
+    //     gotoPage.refresh();
+    // }
+    
     if(currPath["subFrame"] != gotoPath["subFrame"]){
         frame.historyStack.push(currPath);
     }

@@ -75,19 +75,6 @@ export class SubFrame {
         }
     }
 
-    // goToPage(query = {}){
-    //     for (let i = 0; i < this.pages.length; i++) {
-    //         const page = this.pages[i];
-    //         const res = compareDict(page.getData(),query);
-
-    //         if(res){
-    //             this.currentPage = page;
-    //             this.renderPage();
-    //             break;
-    //         }
-    //     }
-    // }
-
     renderPage(){
         this.data.body.innerHTML = "";
         

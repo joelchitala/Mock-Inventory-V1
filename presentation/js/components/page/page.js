@@ -1,12 +1,13 @@
 import { generateUUID } from "../../shared/utilities.js";
 
 export class Page {
-    constructor(name) {
+    constructor(name, refresh = false) {
         this.data = {
             "id":generateUUID(),
             "name":name,
             "subFrame":null,
             "body": document.createElement('div'),
+            "refresh": refresh,
         };
         
         this.template = null;

@@ -1,14 +1,34 @@
 import { generateUUID } from "../../shared/utilities.js";
 
 export class Hub {
-    constructor(parent = null) {
+    constructor() {
+
+        if(!Hub.instance){
+            Hub.instance = this;
+        }
+
         this.data = {
             "id":generateUUID(),
-            "parent":parent,
+            "parent":null,
         }
 
         this.frames = [];
         this.currentFrame = null;
+
+
+        return Hub.instance;
+    }
+
+    setParentElement(parent){
+        this.data.parent = parent;
+    }
+
+    getCurrentPage(){
+        if(this.currentFrame == null){
+            return null;
+        }
+
+        return this.currentFrame.getCurrentPage();
     }
 
     registerFrame(frame){
@@ -21,6 +41,8 @@ export class Hub {
         if(this.frames.length == 0){
             this.currentFrame = frame;
         }
+
+        frame.setHub(this)
         
         this.frames.push(frame);
 
@@ -56,6 +78,9 @@ export class Hub {
     goToFrame(frame){
         const res = this.frames.includes(frame);
 
+        console.log(res);
+        
+
         if(!res){
             return false;
         }
@@ -71,8 +96,6 @@ export class Hub {
         if(!parent){
             return;
         }
-
-        
         
         if(this.currentFrame == null){
             return;
