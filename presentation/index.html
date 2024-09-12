@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Inventory</title>
+
+    <style>
+        *{
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+
+        body{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header{
+            padding: 0.5rem;
+        }
+
+        main{
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        main #sidebar-section{
+            /* padding: 1rem; */
+            width: 25%;
+            background-color: #f6f6f6;
+        }
+
+        main #sidebar-section #sidebar-selection-container{
+            display: flex;
+            flex-direction: column;
+        }
+
+        main #sidebar-selection{
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        main #sidebar-selection:hover{
+            background-color: #efefef;
+        }
+
+        main #content-section{
+            width: 100%;
+            padding: 1rem;
+            text-overflow: ellipsis;
+        }
+
+        main #content-section #item-table thead tr td{
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main #content-section #item-table tbody tr td{
+            padding: 1rem 0;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* main #content-section #item-container-label{
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        main #content-section #item-container .item{
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-evenly;
+        } */
+
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <h1>Mock Inventory</h1>
+    </div>
+</header>
+
+<main>
+    <section id="sidebar-section">
+        <h3>Sidebar</h3>
+        <div id="sidebar-selection-container">
+            <div id="sidebar-selection">
+                <h4>Inventory</h4>
+            </div>
+            <div id="sidebar-selection">
+                <h4>Orders</h4>
+            </div>
+        </div>
+    </section>
+    <section id="content-section">
+        <h3>Items</h3>
+        <!-- <div id="item-container-label">
+            <p>Name</p>
+            <p>Price</p>
+            <p>Qty</p>
+            <p>Edit</p>
+            <p>Delete</p>
+        </div>
+        <div id="item-container">
+            <div class="item">
+                <p>Milk</p>
+                <p>$9</p>
+                <p>15</p>
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div> -->
+
+        <table id="item-table" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Qty</td>
+                    <td>Total</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Milk</td>
+                    <td>$9</td>
+                    <td>15</td>
+                    <td>$135</td>
+                    <td><button>Edit</button></td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Eggs</td>
+                    <td>$1</td>
+                    <td>12</td>
+                    <td>$12</td>
+                    <td><button>Edit</button></td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Meat</td>
+                    <td>$18</td>
+                    <td>12</td>
+                    <td>$216</td>
+                    <td><button>Edit</button></td>
+                    <td><button>Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+    
+</body>
+<script type="module" src="js/index.js"></script>
+</html>
