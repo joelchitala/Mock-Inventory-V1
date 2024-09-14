@@ -26,39 +26,40 @@
             height: 100%;
             display: flex;
             flex-direction: row;
+            overflow: hidden;
         }
 
-        main #sidebar-section{
+        main #sidebar_section{
             /* padding: 1rem; */
             width: 25%;
             background-color: #f6f6f6;
         }
 
-        main #sidebar-section #sidebar-selection-container{
+        main #sidebar_section #sidebar_selection_container{
             display: flex;
             flex-direction: column;
         }
 
-        main #sidebar-selection{
+        main #sidebar_selection{
             padding: 1rem;
             cursor: pointer;
         }
 
-        main #sidebar-selection:hover{
+        main #sidebar_selection:hover{
             background-color: #efefef;
         }
 
-        main #content-section{
+        main #content_section{
             width: 100%;
             padding: 1rem;
             text-overflow: ellipsis;
         }
 
-        main #content-section #item-table thead tr td{
+        main #content_section #item_table thead tr td{
             padding: 1rem 0;
             text-align: center;
         }
-        main #content-section #item-table tbody tr td{
+        main #content_section #item_table tbody tr td{
             padding: 1rem 0;
             text-align: center;
             overflow: hidden;
@@ -89,37 +90,21 @@
 </header>
 
 <main>
-    <section id="sidebar-section">
+    <section id="sidebar_section">
         <h3>Sidebar</h3>
-        <div id="sidebar-selection-container">
-            <div id="sidebar-selection">
+        <div id="sidebar_selection_container">
+            <div id="sidebar_selection" data-frame="inventory">
                 <h4>Inventory</h4>
             </div>
-            <div id="sidebar-selection">
+            <div id="sidebar_selection" data-frame="orders">
                 <h4>Orders</h4>
             </div>
         </div>
     </section>
-    <section id="content-section">
-        <h3>Items</h3>
-        <!-- <div id="item-container-label">
-            <p>Name</p>
-            <p>Price</p>
-            <p>Qty</p>
-            <p>Edit</p>
-            <p>Delete</p>
-        </div>
-        <div id="item-container">
-            <div class="item">
-                <p>Milk</p>
-                <p>$9</p>
-                <p>15</p>
-                <button>Edit</button>
-                <button>Delete</button>
-            </div>
-        </div> -->
+    <section id="content_section">
+        <!-- <h3>Items</h3> -->
 
-        <table id="item-table" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+        <!-- <table id="item-table" style="width: 100%; border-collapse: collapse; table-layout: fixed;">
             <thead>
                 <tr>
                     <td>Name</td>
@@ -139,27 +124,11 @@
                     <td><button>Edit</button></td>
                     <td><button>Delete</button></td>
                 </tr>
-                <tr>
-                    <td>Eggs</td>
-                    <td>$1</td>
-                    <td>12</td>
-                    <td>$12</td>
-                    <td><button>Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
-                <tr>
-                    <td>Meat</td>
-                    <td>$18</td>
-                    <td>12</td>
-                    <td>$216</td>
-                    <td><button>Edit</button></td>
-                    <td><button>Delete</button></td>
-                </tr>
             </tbody>
-        </table>
+        </table> -->
     </section>
 </main>
     
 </body>
-<script type="module" src="js/index.js"></script>
+<script type="module" src="index.js"></script>
 </html>
